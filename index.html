@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Penyusun Visi, Misi & Tujuan Sekolah</title>
+<style>
+  :root{
+    --ink:#1c1917; --ink-soft:#44403c; --muted:#78716c; --muted-2:#a8a29e;
+    --paper:#fafaf9; --surface:#ffffff; --line:#e7e5e4; --line-2:#d6d3d1;
+    --green:#065f46; --green-dark:#022c22; --green-bg:#ecfdf5;
+    --red-bg:#fef2f2; --red-line:#fecaca; --red-text:#b91c1c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--paper);color:var(--ink);}
+  h1,h2,.serif{font-family:Georgia,"Iowan Old Style","Palatino Linotype",serif;}
+  .app{min-height:100vh;display:flex;flex-direction:column;}
+  header.top{border-bottom:1px solid var(--line);background:var(--surface);padding:16px 20px;}
+  header.top h1{font-size:22px;color:var(--green-dark);margin:0 0 4px;}
+  header.top p{margin:0;font-size:13px;color:var(--muted);}
+  .body{flex:1;display:flex;}
+  nav.side{width:250px;flex-shrink:0;border-right:1px solid var(--line);background:var(--surface);padding:18px 10px;}
+  @media (max-width:860px){ nav.side{display:none;} }
+  nav.side button{width:100%;display:flex;align-items:center;gap:10px;background:none;border:none;border-radius:6px;padding:10px 12px;margin-bottom:4px;font-size:14px;color:var(--ink-soft);cursor:pointer;text-align:left;}
+  nav.side button:hover{background:#f5f5f4;}
+  nav.side button.active{background:var(--green);color:#fff;}
+  nav.side .icon{width:16px;text-align:center;flex-shrink:0;}
+  .mobile-nav{display:none;border-bottom:1px solid var(--line);background:var(--surface);padding:12px 16px;}
+  @media (max-width:860px){ .mobile-nav{display:block;} }
+  .mobile-nav .row{display:flex;justify-content:space-between;font-size:12px;margin-bottom:8px;}
+  .mobile-nav .row span:first-child{color:var(--muted);font-weight:500;}
+  .mobile-nav .row span:last-child{color:var(--green);font-weight:600;}
+  .bar{height:6px;border-radius:99px;background:var(--line);overflow:hidden;}
+  .bar > div{height:100%;background:var(--green);transition:width .25s;}
+  main{flex:1;padding:28px 24px;max-width:720px;}
+  @media (max-width:860px){ main{padding:20px 16px;} }
+  .step-panel{display:none;}
+  .step-panel.active{display:block;}
+  .step-panel h2{font-size:18px;color:var(--green-dark);margin:0 0 16px;}
+  label.field{display:block;margin-bottom:18px;}
+  label.field > span{display:block;font-size:13px;font-weight:600;color:var(--ink-soft);margin-bottom:6px;}
+  textarea,input[type=text],select{
+    width:100%;border:1px solid var(--line-2);border-radius:6px;padding:9px 12px;font-size:15px;
+    color:var(--ink);background:var(--surface);font-family:inherit;resize:vertical;
+  }
+  textarea:focus,input:focus,select:focus{outline:2px solid var(--green);outline-offset:0;border-color:var(--green);}
+  .chip-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+  @media (max-width:600px){ .chip-grid{grid-template-columns:1fr;} }
+  .chip{display:flex;align-items:flex-start;gap:8px;text-align:left;border:1px solid var(--line-2);background:var(--surface);
+    border-radius:6px;padding:9px 12px;font-size:13.5px;color:var(--ink-soft);cursor:pointer;}
+  .chip:hover{border-color:var(--muted-2);}
+  .chip.active{border-color:var(--green);background:var(--green-bg);color:var(--green-dark);}
+  .chip .box{width:15px;height:15px;border-radius:3px;border:1px solid var(--muted-2);flex-shrink:0;margin-top:2px;
+    display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;}
+  .chip.active .box{background:var(--green);border-color:var(--green);}
+  .nav-buttons{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:18px;border-top:1px solid var(--line);}
+  button.ghost{background:none;border:none;color:var(--ink-soft);font-size:14px;padding:9px 12px;border-radius:6px;cursor:pointer;display:flex;align-items:center;gap:5px;}
+  button.ghost:hover{background:#f5f5f4;}
+  button.ghost:disabled{opacity:.3;cursor:default;}
+  button.primary{background:var(--green);color:#fff;border:none;font-size:14px;font-weight:600;padding:10px 16px;border-radius:6px;cursor:pointer;display:flex;align-items:center;gap:6px;}
+  button.primary:hover{background:var(--green-dark);}
+  button.outline{background:var(--surface);border:1px solid var(--line-2);color:var(--ink-soft);font-size:13.5px;padding:7px 12px;border-radius:6px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;}
+  button.outline:hover{background:#f5f5f4;}
+  .actions-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+  .loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:70px 0;color:var(--muted);}
+  .spinner{width:26px;height:26px;border:3px solid var(--line);border-top-color:var(--green);border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:12px;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .error-box{border:1px solid var(--red-line);background:var(--red-bg);color:var(--red-text);border-radius:6px;padding:12px 16px;font-size:14px;margin-bottom:16px;}
+  .error-box button{background:none;border:none;color:var(--red-text);font-weight:600;text-decoration:underline;cursor:pointer;margin-left:8px;font-size:14px;}
+  .doc{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:30px 34px;box-shadow:0 1px 2px rgba(0,0,0,.04);}
+  @media (max-width:600px){ .doc{padding:22px 18px;} }
+  .doc .letterhead{border-bottom:4px solid var(--green);padding-bottom:16px;margin-bottom:22px;text-align:center;}
+  .doc .letterhead .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted-2);margin:0 0 4px;}
+  .doc .letterhead h3{font-size:19px;color:var(--green-dark);margin:0;}
+  .doc .letterhead p{margin:2px 0 0;font-size:13px;color:var(--muted);}
+  .doc .label{font-size:11.5px;font-weight:700;letter-spacing:.03em;color:var(--green);margin:0 0 8px;}
+  .doc .block{margin-bottom:26px;}
+  .doc textarea{border:none;background:transparent;padding:0;font-family:inherit;width:100%;resize:none;}
+  .doc textarea:focus{outline:none;}
+  .visi-text{font-family:Georgia,serif;font-size:17px;text-align:center;line-height:1.6;color:var(--ink);overflow:hidden;height:auto;}
+  .misi-item{display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;}
+  .misi-item .num{font-family:Georgia,serif;color:var(--muted-2);width:20px;flex-shrink:0;margin-top:6px;}
+  .misi-item textarea{font-size:15px;line-height:1.6;border-bottom:1px solid transparent;overflow:hidden;height:auto;}
+  .misi-item textarea:focus{border-bottom:1px solid var(--line-2);}
+  .misi-item .rm{background:none;border:none;color:var(--muted-2);cursor:pointer;font-size:14px;padding:6px;}
+  .misi-item .rm:hover{color:var(--red-text);}
+  .add-misi{background:none;border:none;color:var(--green);font-size:13.5px;font-weight:600;cursor:pointer;padding:0;margin-top:2px;}
+  .tujuan-block{margin-bottom:14px;border-left:3px solid var(--green);background:#fafaf9;border-radius:0 6px 6px 0;
+    padding:10px 14px;page-break-inside:avoid;break-inside:avoid;}
+  .tujuan-block p{font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--green-dark);margin:0 0 6px;text-transform:uppercase;}
+  .tujuan-block textarea{background:transparent;border:1px solid transparent;border-radius:6px;padding:0;font-size:15px;line-height:1.6;
+    overflow:hidden;height:auto;}
+  .tujuan-block textarea:focus{border-color:var(--line-2);background:#fff;padding:6px 8px;}
+  .hint{font-size:12px;color:var(--muted-2);margin-top:14px;}
+  .visi-pilihan-wrap{margin-bottom:18px;}
+  .visi-pilihan-wrap > p.label{text-align:left;}
+  .visi-option{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;border:1px solid var(--line-2);
+    background:var(--surface);border-radius:8px;padding:12px 14px;margin-bottom:10px;cursor:pointer;font-family:Georgia,serif;
+    font-size:15px;line-height:1.55;color:var(--ink);}
+  .visi-option:hover{border-color:var(--muted-2);}
+  .visi-option.active{border-color:var(--green);background:var(--green-bg);}
+  .visi-option .radio{width:16px;height:16px;border-radius:50%;border:1px solid var(--muted-2);flex-shrink:0;margin-top:3px;
+    display:flex;align-items:center;justify-content:center;}
+  .visi-option.active .radio{border-color:var(--green);}
+  .visi-option.active .radio::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);}
+  .visi-pilihan-hint{font-size:12.5px;color:var(--muted);margin:0 0 12px;}
+  @media print{
+    .no-print{display:none !important;}
+    nav.side,.mobile-nav,header.top{display:none !important;}
+    .doc{box-shadow:none;border:none;padding:0;}
+    main{max-width:100%;padding:0;}
+    .doc textarea{overflow:visible !important;resize:none;}
+    .block,.tujuan-block,.misi-item,.letterhead{page-break-inside:avoid;break-inside:avoid;}
+    .doc .block{margin-bottom:20px;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top no-print">
+    <h1 class="serif">Penyusun Visi, Misi & Tujuan Sekolah</h1>
+    <p>Isi analisis konteks sekolah Anda, lalu rumusan visi-misi-tujuan akan dibuat otomatis.</p>
+  </header>
+
+  <div class="mobile-nav no-print">
+    <div class="row"><span id="mobile-step-label">Langkah 1 dari 8</span><span id="mobile-step-name">Identitas Sekolah</span></div>
+    <div class="bar"><div id="mobile-bar" style="width:12.5%"></div></div>
+  </div>
+
+  <div class="body">
+    <nav class="side no-print" id="side-nav"></nav>
+
+    <main>
+      <!-- Step 0: Identitas -->
+      <section class="step-panel" data-step="0">
+        <h2 class="serif">Identitas Sekolah</h2>
+        <label class="field"><span>Nama sekolah</span>
+          <input type="text" id="f-namaSekolah" placeholder="SD Negeri 1 Contoh" value="SD Negeri 2 Cempaka Putih" />
+        </label>
+        <label class="field"><span>Jenjang</span>
+          <select id="f-jenjang">
+            <option>PAUD/TK</option><option selected>SD/MI</option><option>SMP/MTs</option><option>SMA/MA</option><option>SMK</option>
+          </select>
+        </label>
+        <label class="field"><span>Kepala sekolah</span>
+          <input type="text" id="f-kepsek" placeholder="Nama kepala sekolah" value="Siti Rahmawati, S.Pd." />
+        </label>
+      </section>
+
+      <!-- Step 1: Profil Sekolah -->
+      <section class="step-panel" data-step="1">
+        <h2 class="serif">Profil dan Kondisi Sekolah</h2>
+        <label class="field"><span>Karakteristik peserta didik</span>
+          <textarea id="f-karakteristikPD" rows="3" placeholder="Jumlah siswa, latar belakang sosial-ekonomi, minat/bakat, gaya belajar...">320 siswa kelas 1-6, sebagian besar dari keluarga petani dan pedagang kecil. Minat tinggi pada seni tari tradisional dan sepak bola. Gaya belajar visual dan kinestetik dominan.</textarea></label>
+        <label class="field"><span>Kompetensi dan kondisi guru/tenaga kependidikan</span>
+          <textarea id="f-kompetensiGuru" rows="3">18 guru, 80% berkualifikasi S1, 4 guru bersertifikat Guru Penggerak. Masih perlu pelatihan literasi digital dan pembelajaran berdiferensiasi.</textarea></label>
+        <label class="field"><span>Sarana dan prasarana</span>
+          <textarea id="f-saranaPrasarana" rows="3">12 ruang kelas kondisi baik, perpustakaan kecil dengan koleksi terbatas, belum ada laboratorium komputer, lapangan olahraga cukup luas.</textarea></label>
+        <label class="field"><span>Prestasi dan potensi sekolah</span>
+          <textarea id="f-prestasi" rows="3">Juara 1 lomba tari tradisional tingkat kabupaten (2025), juara 2 O2SN sepak bola tingkat kecamatan.</textarea></label>
+        <label class="field"><span>Keunggulan sekolah</span>
+          <textarea id="f-keunggulan" rows="2">Budaya gotong royong kuat dan dukungan orang tua tinggi terhadap kegiatan sekolah.</textarea></label>
+        <label class="field"><span>Kelemahan sekolah</span>
+          <textarea id="f-kelemahan" rows="2">Akses teknologi terbatas; sebagian siswa kelas 4-5 masih kesulitan literasi dasar.</textarea></label>
+      </section>
+
+      <!-- Step 2: Peserta Didik -->
+      <section class="step-panel" data-step="2">
+        <h2 class="serif">Kebutuhan dan Karakteristik Peserta Didik</h2>
+        <label class="field"><span>Perkembangan akademik</span>
+          <textarea id="f-perkembanganAkademik" rows="2">Hasil literasi dan numerasi rata-rata masih di bawah standar kabupaten, terutama di kelas 4-5.</textarea></label>
+        <label class="field"><span>Perkembangan nonakademik (minat, bakat, ekstrakurikuler)</span>
+          <textarea id="f-perkembanganNonakademik" rows="2">Aktif di ekstrakurikuler tari tradisional dan pramuka; antusiasme tinggi pada kegiatan seni dan olahraga.</textarea></label>
+        <label class="field"><span>Karakter dan kompetensi yang perlu dikembangkan</span>
+          <textarea id="f-karakterKompetensi" rows="3">Percaya diri, kemandirian, dan disiplin waktu masih perlu diperkuat, terutama pada siswa kelas awal.</textarea></label>
+        <label class="field"><span>Kebutuhan sosial-emosional dan keterampilan abad ke-21</span>
+          <textarea id="f-kebutuhanAbad21" rows="3">Keterampilan berpikir kritis dan literasi digital perlu diperkuat karena akses gawai dan internet di rumah masih terbatas.</textarea></label>
+      </section>
+
+      <!-- Step 3: Lingkungan -->
+      <section class="step-panel" data-step="3">
+        <h2 class="serif">Potensi Lingkungan dan Masyarakat</h2>
+        <label class="field"><span>Kondisi sosial-budaya masyarakat</span>
+          <textarea id="f-kondisiSosialBudaya" rows="2">Masyarakat agraris dengan tradisi gotong royong dan kesenian daerah yang masih kuat dijaga.</textarea></label>
+        <label class="field"><span>Potensi daerah (ekonomi, geografis, sumber daya)</span>
+          <textarea id="f-potensiDaerah" rows="2">Pertanian sayur dan kerajinan bambu menjadi mata pencaharian utama sebagian besar warga.</textarea></label>
+        <label class="field"><span>Harapan orang tua dan masyarakat</span>
+          <textarea id="f-harapanOrtu" rows="2">Anak tumbuh mandiri, berakhlak baik, dan siap melanjutkan sekolah atau bekerja.</textarea></label>
+        <label class="field"><span>Kemitraan dengan DU/DI/lembaga lain</span>
+          <textarea id="f-kemitraan" rows="2">Kelompok tani setempat dan sanggar seni budaya desa untuk kegiatan pembelajaran kontekstual.</textarea></label>
+      </section>
+
+      <!-- Step 4: Nilai & Budaya -->
+      <section class="step-panel" data-step="4">
+        <h2 class="serif">Nilai-Nilai dan Budaya Sekolah</h2>
+        <span style="display:block;font-size:13px;font-weight:600;color:var(--ink-soft);margin-bottom:8px;">Nilai karakter yang ingin ditanamkan (Profil Pelajar Pancasila)</span>
+        <div class="chip-grid" id="chips-nilai"></div>
+        <label class="field"><span>Nilai/karakter khas lain (opsional)</span>
+          <input type="text" id="f-nilaiKarakterLain" placeholder="mis. cinta lingkungan, jiwa wirausaha" value="cinta budaya lokal" />
+        </label>
+        <label class="field"><span>Budaya positif sekolah yang sudah berjalan / ingin diperkuat</span>
+          <textarea id="f-budayaPositif" rows="3">Salam pagi dan Jumat bersih sudah berjalan rutin. Ingin memperkuat pembiasaan membaca 15 menit sebelum kelas dimulai.</textarea></label>
+        <label class="field"><span>Identitas dan keunggulan khas sekolah</span>
+          <textarea id="f-identitasKhas" rows="3">Dikenal sebagai sekolah pelestari seni tari tradisional daerah setempat.</textarea></label>
+      </section>
+
+      <!-- Step 5: Kebijakan -->
+      <section class="step-panel" data-step="5">
+        <h2 class="serif">Kebijakan dan Arah Pendidikan Nasional</h2>
+        <span style="display:block;font-size:13px;font-weight:600;color:var(--ink-soft);margin-bottom:8px;">Kebijakan yang menjadi acuan</span>
+        <div class="chip-grid" id="chips-kebijakan"></div>
+        <label class="field"><span>Catatan tambahan (kebijakan daerah, dsb.)</span>
+          <textarea id="f-catatanKebijakan" rows="2">Sekolah mulai mengikuti program Adiwiyata tingkat kabupaten pada tahun ajaran ini.</textarea></label>
+      </section>
+
+      <!-- Step 6: Evaluasi -->
+      <section class="step-panel" data-step="6">
+        <h2 class="serif">Evaluasi dan Data Sekolah</h2>
+        <label class="field"><span>Rapor Pendidikan (ringkasan capaian)</span>
+          <textarea id="f-raporPendidikan" rows="2">Literasi kategori sedang, numerasi kategori rendah, iklim keamanan sekolah kategori baik.</textarea></label>
+        <label class="field"><span>Hasil asesmen peserta didik</span>
+          <textarea id="f-hasilAsesmen" rows="2">Sebagian siswa kelas 4-5 belum lancar membaca dan berhitung sesuai capaian pembelajaran.</textarea></label>
+        <label class="field"><span>Evaluasi program sekolah</span>
+          <textarea id="f-evaluasiProgram" rows="2">Program literasi pagi belum berjalan konsisten karena keterbatasan bahan bacaan.</textarea></label>
+        <label class="field"><span>Hasil supervisi</span>
+          <textarea id="f-hasilSupervisi" rows="2">Guru perlu meningkatkan variasi metode mengajar agar lebih interaktif dan berpusat pada siswa.</textarea></label>
+        <label class="field"><span>Masukan warga sekolah dan masyarakat</span>
+          <textarea id="f-masukanWarga" rows="2">Orang tua meminta tambahan ekstrakurikuler keterampilan hidup selain seni dan olahraga.</textarea></label>
+      </section>
+
+      <!-- Step 7: Hasil -->
+      <section class="step-panel" data-step="7">
+        <div id="hasil-content"></div>
+      </section>
+
+      <div class="nav-buttons no-print">
+        <button class="ghost" id="btn-back" onclick="goBack()">&#8249; Kembali</button>
+        <button class="primary" id="btn-next" onclick="goNext()">Lanjut &#8250;</button>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+// =====================================================================
+// PENTING: Ganti nilai di bawah ini dengan URL Cloudflare Worker Anda
+// setelah worker berhasil di-deploy (lihat file CARA_DEPLOY.md).
+// Contoh: "https://visi-misi-proxy.namauser.workers.dev"
+// Selama masih kosong (""), tombol "Buat Otomatis" akan memanggil
+// api.anthropic.com langsung — itu hanya berfungsi saat file ini
+// dibuka di dalam Claude.ai, TIDAK berfungsi jika di-hosting sendiri
+// (mis. GitHub Pages) tanpa worker ini.
+// =====================================================================
+const WORKER_URL = "https://buat-visi-misi.makmurnonci4.workers.dev";
+
+const STEPS = [
+  { label: "Identitas Sekolah", icon: "&#127979;" },
+  { label: "Profil Sekolah", icon: "&#127970;" },
+  { label: "Peserta Didik", icon: "&#128101;" },
+  { label: "Lingkungan & Masyarakat", icon: "&#127758;" },
+  { label: "Nilai & Budaya", icon: "&#10084;" },
+  { label: "Kebijakan Nasional", icon: "&#128220;" },
+  { label: "Evaluasi & Data", icon: "&#128203;" },
+  { label: "Hasil: Visi, Misi & Tujuan", icon: "&#10024;" },
+];
+
+const NILAI_P5 = [
+  "Beriman, bertakwa kepada Tuhan YME, dan berakhlak mulia",
+  "Berkebinekaan global",
+  "Bergotong royong",
+  "Mandiri",
+  "Bernalar kritis",
+  "Kreatif",
+];
+
+const KEBIJAKAN_OPSI = [
+  "Profil Lulusan / Profil Pelajar Pancasila",
+  "Penguatan pendidikan karakter",
+  "Penguatan literasi",
+  "Penguatan numerasi",
+  "Kurikulum Merdeka",
+  "Pendidikan inklusif",
+  "Sekolah ramah lingkungan / Adiwiyata",
+];
+
+let step = 0;
+// Contoh hasil, sudah terisi agar terlihat langsung tanpa menunggu panggilan API.
+// Klik "Buat ulang" untuk menghasilkan rumusan baru berdasarkan isian Anda sendiri.
+let result = {
+  visiPilihan: [
+    "Mewujudkan generasi pembelajar yang mandiri, berakhlak mulia, dan bangga melestarikan budaya, unggul dalam literasi dan numerasi.",
+    "Menjadi sekolah yang menumbuhkan peserta didik mandiri dan berkarakter, unggul dalam literasi-numerasi, serta bangga akan budaya lokal.",
+    "Mewujudkan peserta didik yang berakhlak mulia, mandiri, dan cakap literasi-numerasi dengan semangat melestarikan seni dan budaya daerah.",
+  ],
+  visiSelected: 0,
+  visi: "Mewujudkan generasi pembelajar yang mandiri, berakhlak mulia, dan bangga melestarikan budaya, unggul dalam literasi dan numerasi.",
+  misi: [
+    "Menguatkan pembiasaan literasi dan numerasi setiap pagi secara konsisten di seluruh kelas.",
+    "Mengembangkan pembelajaran berdiferensiasi yang mengakomodasi gaya belajar visual dan kinestetik peserta didik.",
+    "Melestarikan seni tari dan budaya lokal melalui ekstrakurikuler dan sanggar seni sekolah.",
+    "Membangun kemandirian dan kedisiplinan peserta didik melalui pembiasaan rutin dan keteladanan warga sekolah.",
+    "Menjalin kemitraan dengan kelompok tani dan sanggar seni desa untuk memperkaya pembelajaran kontekstual.",
+    "Meningkatkan kompetensi guru dalam pembelajaran digital dan berdiferensiasi melalui pelatihan berkelanjutan.",
+  ],
+  tujuanPendek: "Seluruh siswa kelas 4-6 mampu membaca lancar dan berhitung dasar sesuai standar, program literasi pagi berjalan konsisten 5 hari seminggu, dan minimal 80% guru mengikuti pelatihan pembelajaran berdiferensiasi.",
+  tujuanMenengah: "Sekolah meraih kategori baik untuk literasi dan numerasi dalam Rapor Pendidikan, ekstrakurikuler seni tari menjadi program unggulan tingkat kabupaten, dan kemitraan dengan kelompok tani serta sanggar seni terlaksana rutin setiap semester.",
+  tujuanPanjang: "Sekolah menjadi rujukan pelestarian budaya lokal berbasis pendidikan karakter di tingkat kabupaten, lulusan memiliki kemandirian dan literasi digital yang kuat, dan seluruh guru menguasai pembelajaran berdiferensiasi berbasis teknologi.",
+};
+let generating = false;
+let genError = null;
+let autoTriggered = true; // contoh sudah ditampilkan; regenerasi nyata terjadi lewat tombol "Buat ulang"
+
+// ---------- Build sidebar ----------
+const sideNav = document.getElementById("side-nav");
+STEPS.forEach((s, i) => {
+  const btn = document.createElement("button");
+  btn.innerHTML = `<span class="icon">${s.icon}</span><span>${s.label}</span>`;
+  btn.onclick = () => { step = i; render(); };
+  btn.dataset.idx = i;
+  sideNav.appendChild(btn);
+});
+
+// ---------- Build chip groups ----------
+function buildChips(containerId, options) {
+  const el = document.getElementById(containerId);
+  options.forEach(opt => {
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "chip";
+    chip.dataset.value = opt;
+    chip.innerHTML = `<span class="box">&#10003;</span><span>${opt}</span>`;
+    chip.onclick = () => chip.classList.toggle("active");
+    el.appendChild(chip);
+  });
+}
+buildChips("chips-nilai", NILAI_P5);
+buildChips("chips-kebijakan", KEBIJAKAN_OPSI);
+
+// Contoh isian: tandai beberapa chip secara default
+["Bergotong royong", "Mandiri", "Kreatif", "Beriman, bertakwa kepada Tuhan YME, dan berakhlak mulia"].forEach(v => {
+  const chip = document.querySelector(`#chips-nilai .chip[data-value="${v}"]`);
+  if (chip) chip.classList.add("active");
+});
+["Profil Lulusan / Profil Pelajar Pancasila", "Penguatan literasi", "Penguatan numerasi", "Kurikulum Merdeka"].forEach(v => {
+  const chip = document.querySelector(`#chips-kebijakan .chip[data-value="${v}"]`);
+  if (chip) chip.classList.add("active");
+});
+
+// ---------- Render (step visibility + nav state) ----------
+function render() {
+  document.querySelectorAll(".step-panel").forEach(p => {
+    p.classList.toggle("active", Number(p.dataset.step) === step);
+  });
+  document.querySelectorAll("#side-nav button").forEach(b => {
+    b.classList.toggle("active", Number(b.dataset.idx) === step);
+  });
+  document.getElementById("mobile-step-label").textContent = `Langkah ${step + 1} dari ${STEPS.length}`;
+  document.getElementById("mobile-step-name").textContent = STEPS[step].label;
+  document.getElementById("mobile-bar").style.width = `${((step + 1) / STEPS.length) * 100}%`;
+
+  const backBtn = document.getElementById("btn-back");
+  const nextBtn = document.getElementById("btn-next");
+  backBtn.disabled = step === 0;
+
+  if (step === STEPS.length - 1) {
+    nextBtn.style.display = "none";
+  } else if (step === STEPS.length - 2) {
+    nextBtn.style.display = "inline-flex";
+    nextBtn.innerHTML = "&#10024; Buat visi, misi & tujuan";
+  } else {
+    nextBtn.style.display = "inline-flex";
+    nextBtn.innerHTML = "Lanjut &#8250;";
+  }
+
+  if (step === STEPS.length - 1) {
+    renderHasil();
+    if (!result && !generating && !autoTriggered) {
+      autoTriggered = true;
+      handleGenerate();
+    }
+  }
+}
+
+function goNext() { if (step < STEPS.length - 1) { step++; render(); } }
+function goBack() { if (step > 0) { step--; render(); } }
+
+// ---------- Gather form data ----------
+function val(id) { const el = document.getElementById(id); return el ? el.value.trim() : ""; }
+function selectedChips(containerId) {
+  return Array.from(document.querySelectorAll(`#${containerId} .chip.active`)).map(c => c.dataset.value);
+}
+
+function buildPrompt() {
+  const na = v => (v ? v : "(tidak diisi)");
+  const nilai = [...selectedChips("chips-nilai"), val("f-nilaiKarakterLain")].filter(Boolean).join(", ") || "(tidak diisi)";
+  const kebijakanArr = selectedChips("chips-kebijakan");
+  const kebijakan = kebijakanArr.length ? kebijakanArr.join(", ") : "(tidak diisi)";
+
+  return `Anda adalah konsultan pengembangan kurikulum sekolah di Indonesia. Berdasarkan hasil analisis konteks sekolah berikut, rumuskan draf VISI, MISI, dan TUJUAN SEKOLAH yang selaras, membumi, dan mencerminkan data yang diberikan (bukan template generik).
+
+IDENTITAS
+Nama sekolah: ${na(val("f-namaSekolah"))}
+Jenjang: ${na(val("f-jenjang"))}
+Kepala sekolah: ${na(val("f-kepsek"))}
+
+PROFIL DAN KONDISI SEKOLAH
+Karakteristik peserta didik: ${na(val("f-karakteristikPD"))}
+Kompetensi dan kondisi guru/tenaga kependidikan: ${na(val("f-kompetensiGuru"))}
+Sarana dan prasarana: ${na(val("f-saranaPrasarana"))}
+Prestasi dan potensi sekolah: ${na(val("f-prestasi"))}
+Keunggulan sekolah: ${na(val("f-keunggulan"))}
+Kelemahan sekolah: ${na(val("f-kelemahan"))}
+
+KEBUTUHAN DAN KARAKTERISTIK PESERTA DIDIK
+Perkembangan akademik: ${na(val("f-perkembanganAkademik"))}
+Perkembangan nonakademik: ${na(val("f-perkembanganNonakademik"))}
+Karakter dan kompetensi yang perlu dikembangkan: ${na(val("f-karakterKompetensi"))}
+Kebutuhan sosial-emosional dan keterampilan abad ke-21: ${na(val("f-kebutuhanAbad21"))}
+
+POTENSI LINGKUNGAN DAN MASYARAKAT
+Kondisi sosial-budaya masyarakat: ${na(val("f-kondisiSosialBudaya"))}
+Potensi daerah: ${na(val("f-potensiDaerah"))}
+Harapan orang tua/masyarakat: ${na(val("f-harapanOrtu"))}
+Kemitraan DU/DI/lembaga lain: ${na(val("f-kemitraan"))}
+
+NILAI DAN BUDAYA SEKOLAH
+Nilai karakter yang ingin ditanamkan: ${nilai}
+Budaya positif sekolah: ${na(val("f-budayaPositif"))}
+Identitas dan keunggulan khas sekolah: ${na(val("f-identitasKhas"))}
+
+KEBIJAKAN DAN ARAH PENDIDIKAN NASIONAL
+Kebijakan yang menjadi acuan: ${kebijakan}
+Catatan tambahan: ${na(val("f-catatanKebijakan"))}
+
+EVALUASI DAN DATA SEKOLAH
+Rapor Pendidikan: ${na(val("f-raporPendidikan"))}
+Hasil asesmen peserta didik: ${na(val("f-hasilAsesmen"))}
+Evaluasi program sekolah: ${na(val("f-evaluasiProgram"))}
+Hasil supervisi: ${na(val("f-hasilSupervisi"))}
+Masukan warga sekolah dan masyarakat: ${na(val("f-masukanWarga"))}
+
+TUGAS
+1. Visi: buat 3 alternatif kalimat visi yang SEPADAN (setara bobot dan kualitasnya, sama-sama layak dipakai, bukan satu versi "utama" dan sisanya cadangan asal-asalan). Setiap alternatif: satu kalimat inspiratif, ringkas (maksimal 25 kata), mencerminkan konteks di atas, bukan kalimat generik yang bisa dipakai sekolah manapun. Ketiga alternatif harus punya sudut penekanan atau gaya bahasa yang sedikit berbeda satu sama lain (misalnya: satu menekankan karakter, satu menekankan literasi/prestasi akademik, satu menekankan budaya/lokalitas), namun tetap konsisten dengan seluruh data yang diberikan.
+2. Misi: 5-6 poin berupa kalimat aksi (dimulai kata kerja) yang menjabarkan cara mencapai visi, masing-masing merujuk konteks nyata sekolah ini. Susun agar selaras dengan KETIGA alternatif visi di atas (jangan hanya cocok untuk satu alternatif saja).
+3. Tujuan sekolah: tujuan jangka pendek (1 tahun), jangka menengah (2-4 tahun), dan jangka panjang (5 tahun ke atas), masing-masing 2-3 kalimat, operasional dan terukur.
+
+Jawab HANYA dengan JSON valid tanpa teks lain, tanpa markdown code fence, dengan struktur persis:
+{"visi_pilihan":["...","...","..."],"misi":["...","..."],"tujuan_pendek":"...","tujuan_menengah":"...","tujuan_panjang":"..."}`;
+}
+
+function extractJson(text) {
+  let cleaned = text.trim().replace(/^```json/i, "").replace(/^```/, "").replace(/```$/, "").trim();
+  try { return JSON.parse(cleaned); }
+  catch (e) {
+    const match = cleaned.match(/\{[\s\S]*\}/);
+    if (match) return JSON.parse(match[0]);
+    throw e;
+  }
+}
+
+async function handleGenerate() {
+  generating = true;
+  genError = null;
+  renderHasil();
+  try {
+    const prompt = buildPrompt();
+    let data;
+
+    if (WORKER_URL) {
+      // Lewat Cloudflare Worker (aman untuk di-hosting sendiri, mis. GitHub Pages)
+      const response = await fetch(WORKER_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt }),
+      });
+      data = await response.json();
+      if (!response.ok) throw new Error(data?.error || "Worker mengembalikan error.");
+    } else {
+      // Fallback: panggilan langsung ke Anthropic API.
+      // Ini hanya berfungsi di dalam Claude.ai (diproksi otomatis).
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-6",
+          max_tokens: 1000,
+          messages: [{ role: "user", content: prompt }],
+        }),
+      });
+      data = await response.json();
+    }
+
+    const textBlock = (data.content || []).find(b => b.type === "text");
+    if (!textBlock) throw new Error("Tidak ada respons teks dari model.");
+    const parsed = extractJson(textBlock.text);
+    const visiPilihan = Array.isArray(parsed.visi_pilihan) && parsed.visi_pilihan.length
+      ? parsed.visi_pilihan
+      : (parsed.visi ? [parsed.visi] : []);
+    result = {
+      visiPilihan: visiPilihan,
+      visiSelected: 0,
+      visi: visiPilihan[0] || "",
+      misi: Array.isArray(parsed.misi) ? parsed.misi : [],
+      tujuanPendek: parsed.tujuan_pendek || "",
+      tujuanMenengah: parsed.tujuan_menengah || "",
+      tujuanPanjang: parsed.tujuan_panjang || "",
+    };
+  } catch (e) {
+    genError = "Gagal membuat rumusan otomatis: " + (e.message || "Coba lagi, atau periksa isian Anda.");
+  } finally {
+    generating = false;
+    renderHasil();
+  }
+}
+
+function renderHasil() {
+  const el = document.getElementById("hasil-content");
+
+  if (generating) {
+    el.innerHTML = `
+      <div class="loading">
+        <div class="spinner"></div>
+        <p style="font-size:14px;">Menyusun rumusan visi, misi, dan tujuan dari data sekolah Anda&hellip;</p>
+      </div>`;
+    return;
+  }
+
+  if (genError) {
+    el.innerHTML = `
+      <div class="error-box">${genError}<button onclick="handleGenerate()">Coba lagi</button></div>`;
+    return;
+  }
+
+  if (!result) { el.innerHTML = ""; return; }
+
+  const namaSekolah = val("f-namaSekolah") || "Nama Sekolah";
+  const jenjang = val("f-jenjang");
+
+  const punyaBeberapaVisi = Array.isArray(result.visiPilihan) && result.visiPilihan.length > 1;
+
+  el.innerHTML = `
+    <div class="actions-row no-print">
+      <button class="outline" onclick="handleGenerate()">&#8635; Buat ulang</button>
+      <button class="outline" id="btn-copy" onclick="handleCopy()">&#128203; Salin teks</button>
+      <button class="outline" onclick="window.print()">&#128424; Cetak / Simpan PDF</button>
+    </div>
+    ${punyaBeberapaVisi ? `
+    <div class="visi-pilihan-wrap no-print">
+      <p class="label">PILIHAN VISI</p>
+      <p class="visi-pilihan-hint">Pilih salah satu rumusan visi di bawah ini. Setelah dipilih, teksnya bisa disunting langsung pada dokumen.</p>
+      <div id="visi-pilihan-list"></div>
+    </div>` : ``}
+    <div class="doc">
+      <div class="letterhead">
+        <p class="eyebrow">Draf Rumusan</p>
+        <h3 class="serif">${namaSekolah}</h3>
+        <p>${jenjang}</p>
+      </div>
+      <div class="block">
+        <p class="label" style="text-align:center;">VISI</p>
+        <textarea class="visi-text" id="r-visi" rows="2">${result.visi}</textarea>
+      </div>
+      <div class="block">
+        <p class="label">MISI</p>
+        <div id="misi-list"></div>
+        <button class="add-misi no-print" onclick="addMisi()">+ Tambah poin misi</button>
+      </div>
+      <div class="block">
+        <p class="label">TUJUAN SEKOLAH</p>
+        <div class="tujuan-block">
+          <p>Jangka pendek (1 tahun)</p>
+          <textarea id="r-pendek" rows="2">${result.tujuanPendek}</textarea>
+        </div>
+        <div class="tujuan-block">
+          <p>Jangka menengah (2&ndash;4 tahun)</p>
+          <textarea id="r-menengah" rows="2">${result.tujuanMenengah}</textarea>
+        </div>
+        <div class="tujuan-block">
+          <p>Jangka panjang (5 tahun ke atas)</p>
+          <textarea id="r-panjang" rows="2">${result.tujuanPanjang}</textarea>
+        </div>
+      </div>
+    </div>
+    <p class="hint no-print">Ini adalah draf awal &mdash; silakan sunting kalimat di atas, lalu bahas bersama tim pengembang kurikulum sebelum disahkan.</p>
+  `;
+
+  renderMisiList();
+  if (punyaBeberapaVisi) renderVisiPilihan();
+
+  const growFields = ["r-visi", "r-pendek", "r-menengah", "r-panjang"];
+  const growSetters = {
+    "r-visi": v => result.visi = v,
+    "r-pendek": v => result.tujuanPendek = v,
+    "r-menengah": v => result.tujuanMenengah = v,
+    "r-panjang": v => result.tujuanPanjang = v,
+  };
+  growFields.forEach(id => {
+    const ta = document.getElementById(id);
+    if (!ta) return;
+    autoGrow(ta);
+    ta.addEventListener("input", e => { growSetters[id](e.target.value); autoGrow(e.target); });
+  });
+}
+
+function renderVisiPilihan() {
+  const list = document.getElementById("visi-pilihan-list");
+  if (!list) return;
+  list.innerHTML = "";
+  result.visiPilihan.forEach((v, i) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "visi-option" + (i === result.visiSelected ? " active" : "");
+    btn.innerHTML = `<span class="radio"></span><span>${v}</span>`;
+    btn.onclick = () => selectVisi(i);
+    list.appendChild(btn);
+  });
+}
+
+function selectVisi(i) {
+  result.visiSelected = i;
+  result.visi = result.visiPilihan[i];
+  const ta = document.getElementById("r-visi");
+  if (ta) ta.value = result.visi;
+  renderVisiPilihan();
+}
+
+function autoGrow(el) {
+  if (!el) return;
+  el.style.height = "auto";
+  el.style.height = el.scrollHeight + "px";
+}
+
+function renderMisiList() {
+  const list = document.getElementById("misi-list");
+  if (!list) return;
+  list.innerHTML = "";
+  result.misi.forEach((m, i) => {
+    const row = document.createElement("div");
+    row.className = "misi-item";
+    row.innerHTML = `
+      <span class="num serif">${i + 1}.</span>
+      <textarea rows="2">${m}</textarea>
+      <button class="rm no-print" title="Hapus">&#10005;</button>
+    `;
+    const ta = row.querySelector("textarea");
+    ta.addEventListener("input", e => { result.misi[i] = e.target.value; autoGrow(e.target); });
+    row.querySelector(".rm").onclick = () => { result.misi.splice(i, 1); renderMisiList(); };
+    list.appendChild(row);
+    autoGrow(ta);
+  });
+}
+
+function addMisi() {
+  result.misi.push("");
+  renderMisiList();
+}
+
+function handleCopy() {
+  if (!result) return;
+  const text = `VISI\n${result.visi}\n\nMISI\n${result.misi.map((m, i) => `${i + 1}. ${m}`).join("\n")}\n\nTUJUAN JANGKA PENDEK (1 TAHUN)\n${result.tujuanPendek}\n\nTUJUAN JANGKA MENENGAH (2-4 TAHUN)\n${result.tujuanMenengah}\n\nTUJUAN JANGKA PANJANG (5 TAHUN KE ATAS)\n${result.tujuanPanjang}`;
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand("copy");
+    const btn = document.getElementById("btn-copy");
+    if (btn) { const old = btn.innerHTML; btn.innerHTML = "&#10003; Tersalin!"; setTimeout(() => btn.innerHTML = old, 1800); }
+  } catch (e) { /* noop */ }
+  document.body.removeChild(ta);
+}
+
+window.addEventListener("beforeprint", () => {
+  document.querySelectorAll(".doc textarea").forEach(autoGrow);
+});
+
+render();
+</script>
+</body>
+</html>
