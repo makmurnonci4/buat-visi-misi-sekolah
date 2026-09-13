@@ -104,6 +104,10 @@
   .visi-option.active .radio{border-color:var(--green);}
   .visi-option.active .radio::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);}
   .visi-pilihan-hint{font-size:12.5px;color:var(--muted);margin:0 0 12px;}
+  .sync-row{margin-top:10px;text-align:center;}
+  .sync-row button.outline{font-size:12.5px;padding:6px 12px;}
+  .sync-row button.outline:disabled{opacity:.6;cursor:default;}
+  .sync-error{font-size:12.5px;color:var(--red-text);margin:8px 0 0;}
   @media print{
     .no-print{display:none !important;}
     nav.side,.mobile-nav,header.top{display:none !important;}
@@ -308,6 +312,8 @@ let result = {
 };
 let generating = false;
 let genError = null;
+let syncing = false;
+let syncError = null;
 let autoTriggered = true; // contoh sudah ditampilkan; regenerasi nyata terjadi lewat tombol "Buat ulang"
 
 // ---------- Build sidebar ----------
@@ -458,41 +464,43 @@ function extractJson(text) {
   }
 }
 
+// Panggilan bersama ke AI (lewat Cloudflare Worker jika WORKER_URL diisi,
+// atau langsung ke Anthropic sebagai fallback saat berjalan di Claude.ai).
+// Mengembalikan objek hasil parse JSON dari jawaban AI.
+async function callAI(prompt) {
+  let data;
+  if (WORKER_URL) {
+    const response = await fetch(WORKER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt }),
+    });
+    data = await response.json();
+    if (!response.ok) throw new Error(data?.error || "Worker mengembalikan error.");
+  } else {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1000,
+        messages: [{ role: "user", content: prompt }],
+      }),
+    });
+    data = await response.json();
+  }
+  const textBlock = (data.content || []).find(b => b.type === "text");
+  if (!textBlock) throw new Error("Tidak ada respons teks dari model.");
+  return extractJson(textBlock.text);
+}
+
 async function handleGenerate() {
   generating = true;
   genError = null;
+  syncError = null;
   renderHasil();
   try {
-    const prompt = buildPrompt();
-    let data;
-
-    if (WORKER_URL) {
-      // Lewat Cloudflare Worker (aman untuk di-hosting sendiri, mis. GitHub Pages)
-      const response = await fetch(WORKER_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
-      });
-      data = await response.json();
-      if (!response.ok) throw new Error(data?.error || "Worker mengembalikan error.");
-    } else {
-      // Fallback: panggilan langsung ke Anthropic API.
-      // Ini hanya berfungsi di dalam Claude.ai (diproksi otomatis).
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-6",
-          max_tokens: 1000,
-          messages: [{ role: "user", content: prompt }],
-        }),
-      });
-      data = await response.json();
-    }
-
-    const textBlock = (data.content || []).find(b => b.type === "text");
-    if (!textBlock) throw new Error("Tidak ada respons teks dari model.");
-    const parsed = extractJson(textBlock.text);
+    const parsed = await callAI(buildPrompt());
     const visiPilihan = Array.isArray(parsed.visi_pilihan) && parsed.visi_pilihan.length
       ? parsed.visi_pilihan
       : (parsed.visi ? [parsed.visi] : []);
@@ -509,6 +517,89 @@ async function handleGenerate() {
     genError = "Gagal membuat rumusan otomatis: " + (e.message || "Coba lagi, atau periksa isian Anda.");
   } finally {
     generating = false;
+    renderHasil();
+  }
+}
+
+function buildSyncPrompt(visiText) {
+  const na = v => (v ? v : "(tidak diisi)");
+  const nilai = [...selectedChips("chips-nilai"), val("f-nilaiKarakterLain")].filter(Boolean).join(", ") || "(tidak diisi)";
+  const kebijakanArr = selectedChips("chips-kebijakan");
+  const kebijakan = kebijakanArr.length ? kebijakanArr.join(", ") : "(tidak diisi)";
+
+  return `Anda adalah konsultan pengembangan kurikulum sekolah di Indonesia.
+
+VISI SEKOLAH INI SUDAH DITETAPKAN DAN TIDAK BOLEH DIUBAH:
+"${visiText}"
+
+Berdasarkan visi di atas dan konteks sekolah berikut, susun MISI dan TUJUAN SEKOLAH yang sepenuhnya selaras dan mendukung pencapaian visi tersebut (bukan visi generik lain).
+
+IDENTITAS
+Nama sekolah: ${na(val("f-namaSekolah"))}
+Jenjang: ${na(val("f-jenjang"))}
+Kepala sekolah: ${na(val("f-kepsek"))}
+
+PROFIL DAN KONDISI SEKOLAH
+Karakteristik peserta didik: ${na(val("f-karakteristikPD"))}
+Kompetensi dan kondisi guru/tenaga kependidikan: ${na(val("f-kompetensiGuru"))}
+Sarana dan prasarana: ${na(val("f-saranaPrasarana"))}
+Prestasi dan potensi sekolah: ${na(val("f-prestasi"))}
+Keunggulan sekolah: ${na(val("f-keunggulan"))}
+Kelemahan sekolah: ${na(val("f-kelemahan"))}
+
+KEBUTUHAN DAN KARAKTERISTIK PESERTA DIDIK
+Perkembangan akademik: ${na(val("f-perkembanganAkademik"))}
+Perkembangan nonakademik: ${na(val("f-perkembanganNonakademik"))}
+Karakter dan kompetensi yang perlu dikembangkan: ${na(val("f-karakterKompetensi"))}
+Kebutuhan sosial-emosional dan keterampilan abad ke-21: ${na(val("f-kebutuhanAbad21"))}
+
+POTENSI LINGKUNGAN DAN MASYARAKAT
+Kondisi sosial-budaya masyarakat: ${na(val("f-kondisiSosialBudaya"))}
+Potensi daerah: ${na(val("f-potensiDaerah"))}
+Harapan orang tua/masyarakat: ${na(val("f-harapanOrtu"))}
+Kemitraan DU/DI/lembaga lain: ${na(val("f-kemitraan"))}
+
+NILAI DAN BUDAYA SEKOLAH
+Nilai karakter yang ingin ditanamkan: ${nilai}
+Budaya positif sekolah: ${na(val("f-budayaPositif"))}
+Identitas dan keunggulan khas sekolah: ${na(val("f-identitasKhas"))}
+
+KEBIJAKAN DAN ARAH PENDIDIKAN NASIONAL
+Kebijakan yang menjadi acuan: ${kebijakan}
+Catatan tambahan: ${na(val("f-catatanKebijakan"))}
+
+EVALUASI DAN DATA SEKOLAH
+Rapor Pendidikan: ${na(val("f-raporPendidikan"))}
+Hasil asesmen peserta didik: ${na(val("f-hasilAsesmen"))}
+Evaluasi program sekolah: ${na(val("f-evaluasiProgram"))}
+Hasil supervisi: ${na(val("f-hasilSupervisi"))}
+Masukan warga sekolah dan masyarakat: ${na(val("f-masukanWarga"))}
+
+TUGAS
+1. Misi: 5-6 poin berupa kalimat aksi (dimulai kata kerja) yang menjabarkan cara mencapai VISI DI ATAS PERSIS SEPERTI TERTULIS, masing-masing merujuk konteks nyata sekolah ini.
+2. Tujuan sekolah: tujuan jangka pendek (1 tahun), jangka menengah (2-4 tahun), dan jangka panjang (5 tahun ke atas), masing-masing 2-3 kalimat, operasional dan terukur, dan jelas mendukung pencapaian visi di atas.
+
+Jawab HANYA dengan JSON valid tanpa teks lain, tanpa markdown code fence, dengan struktur persis:
+{"misi":["...","..."],"tujuan_pendek":"...","tujuan_menengah":"...","tujuan_panjang":"..."}`;
+}
+
+async function handleSyncMisiTujuan() {
+  const visiText = val("r-visi") || result.visi;
+  if (!visiText) return;
+  syncing = true;
+  syncError = null;
+  renderHasil();
+  try {
+    const parsed = await callAI(buildSyncPrompt(visiText));
+    result.visi = visiText;
+    result.misi = Array.isArray(parsed.misi) ? parsed.misi : result.misi;
+    result.tujuanPendek = parsed.tujuan_pendek || result.tujuanPendek;
+    result.tujuanMenengah = parsed.tujuan_menengah || result.tujuanMenengah;
+    result.tujuanPanjang = parsed.tujuan_panjang || result.tujuanPanjang;
+  } catch (e) {
+    syncError = "Gagal menyelaraskan misi & tujuan: " + (e.message || "Coba lagi.");
+  } finally {
+    syncing = false;
     renderHasil();
   }
 }
@@ -559,6 +650,12 @@ function renderHasil() {
       <div class="block">
         <p class="label" style="text-align:center;">VISI</p>
         <textarea class="visi-text" id="r-visi" rows="2">${result.visi}</textarea>
+        <div class="sync-row no-print">
+          <button class="outline" id="btn-sync" onclick="handleSyncMisiTujuan()" ${syncing ? "disabled" : ""}>
+            ${syncing ? "&#8987; Menyelaraskan&hellip;" : "&#8635; Selaraskan misi & tujuan dengan visi ini"}
+          </button>
+          ${syncError ? `<p class="sync-error">${syncError}</p>` : ""}
+        </div>
       </div>
       <div class="block">
         <p class="label">MISI</p>
