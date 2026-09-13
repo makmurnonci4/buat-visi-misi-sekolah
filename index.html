@@ -446,7 +446,7 @@ Hasil supervisi: ${na(val("f-hasilSupervisi"))}
 Masukan warga sekolah dan masyarakat: ${na(val("f-masukanWarga"))}
 
 TUGAS
-1. Visi: buat 3 alternatif kalimat visi yang SEPADAN (setara bobot dan kualitasnya, sama-sama layak dipakai, bukan satu versi "utama" dan sisanya cadangan asal-asalan). Setiap alternatif: satu kalimat inspiratif, ringkas (maksimal 25 kata), mencerminkan konteks di atas, bukan kalimat generik yang bisa dipakai sekolah manapun. Ketiga alternatif harus punya sudut penekanan atau gaya bahasa yang sedikit berbeda satu sama lain (misalnya: satu menekankan karakter, satu menekankan literasi/prestasi akademik, satu menekankan budaya/lokalitas), namun tetap konsisten dengan seluruh data yang diberikan.
+1. Visi: buat 3 alternatif kalimat visi yang SEPADAN (setara bobot dan kualitasnya, sama-sama layak dipakai, bukan satu versi "utama" dan sisanya cadangan asal-asalan). Setiap alternatif harus berupa SATU KALIMAT UTUH YANG PANJANG DAN DESKRIPTIF, idealnya 20-35 kata (jangan buat kalimat pendek 5-10 kata), memuat beberapa unsur sekaligus (misalnya karakter/akhlak, kompetensi akademik seperti literasi-numerasi, dan identitas/budaya lokal) yang dirangkai secara mengalir dengan anak kalimat atau klausa tambahan, mencerminkan konteks di atas secara spesifik, bukan kalimat generik yang bisa dipakai sekolah manapun. Ketiga alternatif harus punya sudut penekanan atau gaya bahasa yang sedikit berbeda satu sama lain (misalnya: satu menekankan karakter, satu menekankan literasi/prestasi akademik, satu menekankan budaya/lokalitas), namun tetap konsisten dengan seluruh data yang diberikan dan tetap dalam satu kalimat yang utuh (bukan dipecah jadi beberapa kalimat pendek).
 2. Misi: 5-6 poin berupa kalimat aksi (dimulai kata kerja) yang menjabarkan cara mencapai visi, masing-masing merujuk konteks nyata sekolah ini. Susun agar selaras dengan KETIGA alternatif visi di atas (jangan hanya cocok untuk satu alternatif saja).
 3. Tujuan sekolah: tujuan jangka pendek (1 tahun), jangka menengah (2-4 tahun), dan jangka panjang (5 tahun ke atas), masing-masing 2-3 kalimat, operasional dan terukur.
 
@@ -483,7 +483,7 @@ async function callAI(prompt) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         model: "claude-sonnet-4-6",
-        max_tokens: 1000,
+        max_tokens: 1500,
         messages: [{ role: "user", content: prompt }],
       }),
     });
