@@ -44,15 +44,20 @@
     color:var(--ink);background:var(--surface);font-family:inherit;resize:vertical;
   }
   textarea:focus,input:focus,select:focus{outline:2px solid var(--green);outline-offset:0;border-color:var(--green);}
-  .chip-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
-  @media (max-width:600px){ .chip-grid{grid-template-columns:1fr;} }
-  .chip{display:flex;align-items:flex-start;gap:8px;text-align:left;border:1px solid var(--line-2);background:var(--surface);
-    border-radius:6px;padding:9px 12px;font-size:13.5px;color:var(--ink-soft);cursor:pointer;}
-  .chip:hover{border-color:var(--muted-2);}
-  .chip.active{border-color:var(--green);background:var(--green-bg);color:var(--green-dark);}
-  .chip .box{width:15px;height:15px;border-radius:3px;border:1px solid var(--muted-2);flex-shrink:0;margin-top:2px;
-    display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;}
-  .chip.active .box{background:var(--green);border-color:var(--green);}
+  .pilihan-card{display:block;width:100%;text-align:left;border:1px solid var(--line-2);background:var(--surface);
+    border-radius:10px;padding:16px 18px;margin-bottom:12px;cursor:pointer;}
+  .pilihan-card:hover{border-color:var(--muted-2);}
+  .pilihan-card.active{border-color:var(--green);background:var(--green-bg);}
+  .pilihan-card-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;}
+  .pilihan-check{width:18px;height:18px;border-radius:4px;border:1px solid var(--muted-2);flex-shrink:0;margin-top:2px;
+    display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;background:var(--surface);}
+  .pilihan-card.active .pilihan-check{background:var(--green);border-color:var(--green);}
+  .pilihan-title{font-family:Georgia,serif;font-size:16px;font-weight:700;color:var(--ink);line-height:1.4;}
+  .pilihan-card.active .pilihan-title{color:var(--green-dark);}
+  .pilihan-card-body{padding-left:28px;}
+  .pilihan-card-body p{margin:0 0 8px;font-size:13.5px;line-height:1.55;color:var(--ink-soft);}
+  .pilihan-card-body p:last-child{margin-bottom:0;}
+  .pilihan-card-body strong{color:var(--ink);}
   .nav-buttons{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:18px;border-top:1px solid var(--line);}
   button.ghost{background:none;border:none;color:var(--ink-soft);font-size:14px;padding:9px 12px;border-radius:6px;cursor:pointer;display:flex;align-items:center;gap:5px;}
   button.ghost:hover{background:#f5f5f4;}
@@ -92,10 +97,6 @@
     overflow:hidden;height:auto;}
   .tujuan-block textarea:focus{border-color:var(--line-2);background:#fff;padding:6px 8px;}
   .hint{font-size:12px;color:var(--muted-2);margin-top:14px;}
-  .nilai-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 12px;border:1px solid var(--line-2);border-radius:6px;margin-bottom:6px;font-size:14px;color:var(--ink-soft);background:var(--surface);}
-  .nilai-row button{background:none;border:none;color:var(--muted-2);cursor:pointer;font-size:13px;flex-shrink:0;}
-  .nilai-row button:hover{color:var(--red-text);}
-  .nilai-empty{font-size:13px;color:var(--muted-2);padding:6px 0 10px;}
   .visi-preview-box{margin-top:24px;padding:16px 18px;border:1px solid var(--green);background:var(--green-bg);border-radius:8px;}
   .visi-preview-label{font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--green-dark);margin:0 0 8px;}
   .visi-preview-text{font-family:Georgia,serif;font-size:15.5px;line-height:1.6;color:var(--green-dark);margin:0 0 8px;}
@@ -116,6 +117,13 @@
   .sync-row button.outline{font-size:12.5px;padding:6px 12px;}
   .sync-row button.outline:disabled{opacity:.6;cursor:default;}
   .sync-error{font-size:12.5px;color:var(--red-text);margin:8px 0 0;}
+  .indikator-card{border:1px solid var(--line-2);background:var(--surface);border-radius:10px;padding:16px 18px;margin-bottom:14px;}
+  .indikator-card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;}
+  .indikator-card-head .indikator-title{font-family:Georgia,serif;font-size:15px;font-weight:700;color:var(--ink-soft);}
+  .indikator-card-head .rm{background:none;border:none;color:var(--muted-2);cursor:pointer;font-size:14px;padding:4px 6px;flex-shrink:0;}
+  .indikator-card-head .rm:hover{color:var(--red-text);}
+  .indikator-card label.field{margin-bottom:12px;}
+  .indikator-card label.field:last-child{margin-bottom:0;}
   @media print{
     .no-print{display:none !important;}
     nav.side,.mobile-nav,header.top{display:none !important;}
@@ -135,8 +143,8 @@
   </header>
 
   <div class="mobile-nav no-print">
-    <div class="row"><span id="mobile-step-label">Langkah 1 dari 8</span><span id="mobile-step-name">Identitas Sekolah</span></div>
-    <div class="bar"><div id="mobile-bar" style="width:12.5%"></div></div>
+    <div class="row"><span id="mobile-step-label">Langkah 1 dari 3</span><span id="mobile-step-name">Identitas Sekolah</span></div>
+    <div class="bar"><div id="mobile-bar" style="width:33.3%"></div></div>
   </div>
 
   <div class="body">
@@ -159,93 +167,16 @@
         </label>
       </section>
 
-      <!-- Step 1: Profil Sekolah -->
+      <!-- Step 1: Indikator Konteks Sekolah (isian, bukan pilihan) -->
       <section class="step-panel" data-step="1">
-        <h2 class="serif">Profil dan Kondisi Sekolah</h2>
-        <label class="field"><span>Karakteristik peserta didik</span>
-          <textarea id="f-karakteristikPD" rows="3" placeholder="Jumlah siswa, latar belakang sosial-ekonomi, minat/bakat, gaya belajar...">320 siswa kelas 1-6, sebagian besar dari keluarga petani dan pedagang kecil. Minat tinggi pada seni tari tradisional dan sepak bola. Gaya belajar visual dan kinestetik dominan.</textarea></label>
-        <label class="field"><span>Kompetensi dan kondisi guru/tenaga kependidikan</span>
-          <textarea id="f-kompetensiGuru" rows="3">18 guru, 80% berkualifikasi S1, 4 guru bersertifikat Guru Penggerak. Masih perlu pelatihan literasi digital dan pembelajaran berdiferensiasi.</textarea></label>
-        <label class="field"><span>Sarana dan prasarana</span>
-          <textarea id="f-saranaPrasarana" rows="3">12 ruang kelas kondisi baik, perpustakaan kecil dengan koleksi terbatas, belum ada laboratorium komputer, lapangan olahraga cukup luas.</textarea></label>
-        <label class="field"><span>Prestasi dan potensi sekolah</span>
-          <textarea id="f-prestasi" rows="3">Juara 1 lomba tari tradisional tingkat kabupaten (2025), juara 2 O2SN sepak bola tingkat kecamatan.</textarea></label>
-        <label class="field"><span>Keunggulan sekolah</span>
-          <textarea id="f-keunggulan" rows="2">Budaya gotong royong kuat dan dukungan orang tua tinggi terhadap kegiatan sekolah.</textarea></label>
-        <label class="field"><span>Kelemahan sekolah</span>
-          <textarea id="f-kelemahan" rows="2">Akses teknologi terbatas; sebagian siswa kelas 4-5 masih kesulitan literasi dasar.</textarea></label>
+        <h2 class="serif">Indikator Konteks Sekolah</h2>
+        <p class="hint" style="margin:-8px 0 16px;">Isi atau sunting sendiri setiap indikator kondisi nyata dan tantangan pembelajaran mendalam sesuai keadaan sekolah Anda. Semua indikator yang diisi di bawah ini akan disatukan dan diselaraskan untuk menjadi rumusan visi &mdash; bukan pilihan yang tinggal dicentang.</p>
+        <div id="pilihan-list"></div>
+        <button class="add-misi no-print" onclick="addIndikator()">+ Tambah indikator</button>
       </section>
 
-      <!-- Step 2: Peserta Didik -->
+      <!-- Step 2: Hasil -->
       <section class="step-panel" data-step="2">
-        <h2 class="serif">Kebutuhan dan Karakteristik Peserta Didik</h2>
-        <label class="field"><span>Perkembangan akademik</span>
-          <textarea id="f-perkembanganAkademik" rows="2">Hasil literasi dan numerasi rata-rata masih di bawah standar kabupaten, terutama di kelas 4-5.</textarea></label>
-        <label class="field"><span>Perkembangan nonakademik (minat, bakat, ekstrakurikuler)</span>
-          <textarea id="f-perkembanganNonakademik" rows="2">Aktif di ekstrakurikuler tari tradisional dan pramuka; antusiasme tinggi pada kegiatan seni dan olahraga.</textarea></label>
-        <label class="field"><span>Karakter dan kompetensi yang perlu dikembangkan</span>
-          <textarea id="f-karakterKompetensi" rows="3">Percaya diri, kemandirian, dan disiplin waktu masih perlu diperkuat, terutama pada siswa kelas awal.</textarea></label>
-        <label class="field"><span>Kebutuhan sosial-emosional dan keterampilan abad ke-21</span>
-          <textarea id="f-kebutuhanAbad21" rows="3">Keterampilan berpikir kritis dan literasi digital perlu diperkuat karena akses gawai dan internet di rumah masih terbatas.</textarea></label>
-      </section>
-
-      <!-- Step 3: Lingkungan -->
-      <section class="step-panel" data-step="3">
-        <h2 class="serif">Potensi Lingkungan dan Masyarakat</h2>
-        <label class="field"><span>Kondisi sosial-budaya masyarakat</span>
-          <textarea id="f-kondisiSosialBudaya" rows="2">Masyarakat agraris dengan tradisi gotong royong dan kesenian daerah yang masih kuat dijaga.</textarea></label>
-        <label class="field"><span>Potensi daerah (ekonomi, geografis, sumber daya)</span>
-          <textarea id="f-potensiDaerah" rows="2">Pertanian sayur dan kerajinan bambu menjadi mata pencaharian utama sebagian besar warga.</textarea></label>
-        <label class="field"><span>Harapan orang tua dan masyarakat</span>
-          <textarea id="f-harapanOrtu" rows="2">Anak tumbuh mandiri, berakhlak baik, dan siap melanjutkan sekolah atau bekerja.</textarea></label>
-        <label class="field"><span>Kemitraan dengan DU/DI/lembaga lain</span>
-          <textarea id="f-kemitraan" rows="2">Kelompok tani setempat dan sanggar seni budaya desa untuk kegiatan pembelajaran kontekstual.</textarea></label>
-      </section>
-
-      <!-- Step 4: Nilai & Budaya -->
-      <section class="step-panel" data-step="4">
-        <h2 class="serif">Nilai-Nilai dan Budaya Sekolah</h2>
-        <span style="display:block;font-size:13px;font-weight:600;color:var(--ink-soft);margin-bottom:8px;">Nilai karakter yang ingin ditanamkan (8 Dimensi Profil Lulusan, Permendikdasmen No. 10/2025)</span>
-        <div class="chip-grid" id="chips-nilai"></div>
-        <label class="field" style="margin-top:14px;"><span>Nilai-nilai khas sekolah</span></label>
-        <p class="hint" style="margin-top:-10px;">Ditambahkan oleh guru/kepala sekolah/tim penyusun. Tersimpan otomatis di perangkat/browser ini, bisa ditambah atau dihapus kapan saja.</p>
-        <div style="display:flex;gap:8px;margin-bottom:10px;">
-          <input type="text" id="f-nilaiSekolahInput" placeholder="mis. cinta budaya lokal" style="flex:1;" />
-          <button type="button" class="outline" id="btn-tambah-nilai" onclick="addNilaiSekolah()">+ Tambah</button>
-        </div>
-        <div id="nilai-sekolah-list"></div>
-        <label class="field"><span>Budaya positif sekolah yang sudah berjalan / ingin diperkuat</span>
-          <textarea id="f-budayaPositif" rows="3">Salam pagi dan Jumat bersih sudah berjalan rutin. Ingin memperkuat pembiasaan membaca 15 menit sebelum kelas dimulai.</textarea></label>
-        <label class="field"><span>Identitas dan keunggulan khas sekolah</span>
-          <textarea id="f-identitasKhas" rows="3">Dikenal sebagai sekolah pelestari seni tari tradisional daerah setempat.</textarea></label>
-      </section>
-
-      <!-- Step 5: Kebijakan -->
-      <section class="step-panel" data-step="5">
-        <h2 class="serif">Kebijakan dan Arah Pendidikan Nasional</h2>
-        <span style="display:block;font-size:13px;font-weight:600;color:var(--ink-soft);margin-bottom:8px;">Kebijakan yang menjadi acuan</span>
-        <div class="chip-grid" id="chips-kebijakan"></div>
-        <label class="field"><span>Catatan tambahan (kebijakan daerah, dsb.)</span>
-          <textarea id="f-catatanKebijakan" rows="2">Sekolah mulai mengikuti program Adiwiyata tingkat kabupaten pada tahun ajaran ini.</textarea></label>
-      </section>
-
-      <!-- Step 6: Evaluasi -->
-      <section class="step-panel" data-step="6">
-        <h2 class="serif">Evaluasi dan Data Sekolah</h2>
-        <label class="field"><span>Rapor Pendidikan (ringkasan capaian)</span>
-          <textarea id="f-raporPendidikan" rows="2">Literasi kategori sedang, numerasi kategori rendah, iklim keamanan sekolah kategori baik.</textarea></label>
-        <label class="field"><span>Hasil asesmen peserta didik</span>
-          <textarea id="f-hasilAsesmen" rows="2">Sebagian siswa kelas 4-5 belum lancar membaca dan berhitung sesuai capaian pembelajaran.</textarea></label>
-        <label class="field"><span>Evaluasi program sekolah</span>
-          <textarea id="f-evaluasiProgram" rows="2">Program literasi pagi belum berjalan konsisten karena keterbatasan bahan bacaan.</textarea></label>
-        <label class="field"><span>Hasil supervisi</span>
-          <textarea id="f-hasilSupervisi" rows="2">Guru perlu meningkatkan variasi metode mengajar agar lebih interaktif dan berpusat pada siswa.</textarea></label>
-        <label class="field"><span>Masukan warga sekolah dan masyarakat</span>
-          <textarea id="f-masukanWarga" rows="2">Orang tua meminta tambahan ekstrakurikuler keterampilan hidup selain seni dan olahraga.</textarea></label>
-      </section>
-
-      <!-- Step 7: Hasil -->
-      <section class="step-panel" data-step="7">
         <div id="hasil-content"></div>
       </section>
 
@@ -277,34 +208,29 @@ const WORKER_URL = "https://buat-visi-misi.makmurnonci4.workers.dev";
 
 const STEPS = [
   { label: "Identitas Sekolah", icon: "&#127979;" },
-  { label: "Profil Sekolah", icon: "&#127970;" },
-  { label: "Peserta Didik", icon: "&#128101;" },
-  { label: "Lingkungan & Masyarakat", icon: "&#127758;" },
-  { label: "Nilai & Budaya", icon: "&#10084;" },
-  { label: "Kebijakan Nasional", icon: "&#128220;" },
-  { label: "Evaluasi & Data", icon: "&#128203;" },
+  { label: "Indikator Konteks", icon: "&#127919;" },
   { label: "Hasil: Visi, Misi & Tujuan", icon: "&#10024;" },
 ];
 
-const NILAI_P5 = [
-  "Keimanan dan ketakwaan",
-  "Kewargaan",
-  "Penalaran kritis",
-  "Kreativitas",
-  "Kolaborasi",
-  "Kemandirian",
-  "Kesehatan",
-  "Komunikasi",
-];
-
-const KEBIJAKAN_OPSI = [
-  "Profil Lulusan / Profil Pelajar Pancasila",
-  "Penguatan pendidikan karakter",
-  "Penguatan literasi",
-  "Penguatan numerasi",
-  "Kurikulum Merdeka",
-  "Pendidikan inklusif",
-  "Sekolah ramah lingkungan / Adiwiyata",
+// Nilai AWAL isian indikator (contoh) — seluruhnya bisa disunting bebas oleh
+// satuan pendidikan, ditambah, atau dihapus. Ini BUKAN daftar pilihan yang
+// tinggal dicentang; semua baris yang terisi akan dipakai bersama-sama.
+let indikatorList = [
+  {
+    tema: "Keterampilan Berpikir Kritis & Literasi Digital",
+    kondisi: "Siswa sangat akrab dengan teknologi dan media sosial, namun cenderung menjadi konsumen informasi yang pasif. Mereka mudah menerima hoaks, kesulitan menyaring informasi, dan terbiasa dengan jawaban instan dari internet sehingga daya juang belajarnya rendah.",
+    tantangan: "Mengubah paparan digital menjadi kemampuan bernalar kritis, menganalisis data secara mendalam, dan memecahkan masalah kontekstual (bukan sekadar menghafal informasi).",
+  },
+  {
+    tema: "Pembelajaran Berbasis Proyek & Konteks Lokal",
+    kondisi: "Sekolah berada di lingkungan yang kaya potensi (misalnya dekat dengan komunitas UMKM, lahan pertanian, atau budaya lokal yang kuat), namun pembelajaran di kelas masih teoritis, tekstual, dan terisolasi dari kehidupan nyata di luar sekolah.",
+    tantangan: "Mengintegrasikan potensi lingkungan sebagai laboratorium belajar nyata melalui pembelajaran berbasis proyek (project-based learning), sehingga siswa memahami makna dari apa yang mereka pelajari (meaningful learning).",
+  },
+  {
+    tema: "Karakter, Kolaborasi, dan Student Agency",
+    kondisi: "Hubungan sosial antar-siswa mulai berjarak akibat ketergantungan pada gawai, ego individu tinggi, dan siswa cenderung pasif dalam menentukan arah belajar mereka sendiri di kelas (hanya menunggu instruksi guru).",
+    tantangan: "Membangun kompetensi global melalui kolaborasi tim, menumbuhkan empati, serta memberikan ruang bagi siswa untuk menyuarakan pendapat dan mengambil pilihan dalam pembelajaran mereka (voice, choice, and ownership).",
+  },
 ];
 
 let step = 0;
@@ -346,109 +272,73 @@ STEPS.forEach((s, i) => {
   sideNav.appendChild(btn);
 });
 
-// ---------- Build chip groups ----------
-function buildChips(containerId, options) {
-  const el = document.getElementById(containerId);
-  options.forEach(opt => {
-    const chip = document.createElement("button");
-    chip.type = "button";
-    chip.className = "chip";
-    chip.dataset.value = opt;
-    chip.innerHTML = `<span class="box">&#10003;</span><span>${opt}</span>`;
-    chip.onclick = () => { chip.classList.toggle("active"); updateVisiPreview(); };
-    el.appendChild(chip);
+// ---------- Indikator Konteks Sekolah (isian bebas, bukan pilihan) ----------
+function escapeHtml(s) {
+  return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+function escapeAttr(s) {
+  return escapeHtml(s).replace(/"/g, "&quot;");
+}
+
+function renderIndikatorList() {
+  const list = document.getElementById("pilihan-list");
+  if (!list) return;
+  list.innerHTML = "";
+  indikatorList.forEach((ind, i) => {
+    const card = document.createElement("div");
+    card.className = "indikator-card";
+    card.innerHTML = `
+      <div class="indikator-card-head">
+        <span class="indikator-title serif">Indikator ${i + 1}</span>
+        ${indikatorList.length > 1 ? `<button type="button" class="rm" data-i="${i}" title="Hapus indikator ini">&#10005; Hapus</button>` : ``}
+      </div>
+      <label class="field"><span>Tema / Fokus</span>
+        <input type="text" class="ind-tema" data-i="${i}" placeholder="Contoh: Literasi Digital" value="${escapeAttr(ind.tema)}" />
+      </label>
+      <label class="field"><span>Kondisi Nyata</span>
+        <textarea class="ind-kondisi" data-i="${i}" rows="3" placeholder="Gambarkan kondisi nyata peserta didik/sekolah Anda saat ini&hellip;">${escapeHtml(ind.kondisi)}</textarea>
+      </label>
+      <label class="field"><span>Tantangan Pembelajaran Mendalam</span>
+        <textarea class="ind-tantangan" data-i="${i}" rows="3" placeholder="Tantangan apa yang ingin dijawab melalui pembelajaran mendalam&hellip;">${escapeHtml(ind.tantangan)}</textarea>
+      </label>
+    `;
+    list.appendChild(card);
+  });
+
+  list.querySelectorAll(".ind-tema").forEach(el => {
+    autoGrow(el);
+    el.addEventListener("input", e => {
+      indikatorList[Number(e.target.dataset.i)].tema = e.target.value;
+      updateVisiPreview();
+    });
+  });
+  list.querySelectorAll(".ind-kondisi, .ind-tantangan").forEach(el => {
+    autoGrow(el);
+    el.addEventListener("input", e => {
+      const idx = Number(e.target.dataset.i);
+      const field = e.target.classList.contains("ind-kondisi") ? "kondisi" : "tantangan";
+      indikatorList[idx][field] = e.target.value;
+      autoGrow(e.target);
+      updateVisiPreview();
+    });
+  });
+  list.querySelectorAll(".rm").forEach(el => {
+    el.addEventListener("click", e => {
+      indikatorList.splice(Number(e.target.dataset.i), 1);
+      renderIndikatorList();
+      updateVisiPreview();
+    });
   });
 }
-buildChips("chips-nilai", NILAI_P5);
-buildChips("chips-kebijakan", KEBIJAKAN_OPSI);
 
-// Contoh isian: tandai beberapa chip secara default
-["Kolaborasi", "Kemandirian", "Kreativitas", "Keimanan dan ketakwaan"].forEach(v => {
-  const chip = document.querySelector(`#chips-nilai .chip[data-value="${v}"]`);
-  if (chip) chip.classList.add("active");
-});
-["Profil Lulusan / Profil Pelajar Pancasila", "Penguatan literasi", "Penguatan numerasi", "Kurikulum Merdeka"].forEach(v => {
-  const chip = document.querySelector(`#chips-kebijakan .chip[data-value="${v}"]`);
-  if (chip) chip.classList.add("active");
-});
-
-// ---------- Nilai-nilai khas sekolah (tersimpan lokal di perangkat/browser ini) ----------
-const NILAI_SEKOLAH_KEY = "visimisi_nilaiSekolahKhas";
-let nilaiSekolah = [];
-try {
-  const saved = JSON.parse(localStorage.getItem(NILAI_SEKOLAH_KEY) || "null");
-  nilaiSekolah = Array.isArray(saved) ? saved : [{ id: "seed1", text: "cinta budaya lokal" }];
-} catch (e) {
-  nilaiSekolah = [{ id: "seed1", text: "cinta budaya lokal" }];
+function addIndikator() {
+  indikatorList.push({ tema: "", kondisi: "", tantangan: "" });
+  renderIndikatorList();
 }
 
-function saveNilaiSekolah() {
-  try { localStorage.setItem(NILAI_SEKOLAH_KEY, JSON.stringify(nilaiSekolah)); }
-  catch (e) { /* penyimpanan tidak tersedia, lanjut tanpa persist */ }
-}
+renderIndikatorList();
 
-function renderNilaiSekolahList() {
-  const el = document.getElementById("nilai-sekolah-list");
-  if (!el) return;
-  if (nilaiSekolah.length === 0) {
-    el.innerHTML = `<p class="nilai-empty">Belum ada nilai khas yang ditambahkan.</p>`;
-    return;
-  }
-  el.innerHTML = nilaiSekolah.map(n => `
-    <div class="nilai-row">
-      <span>${n.text}</span>
-      <button type="button" onclick="removeNilaiSekolah('${n.id}')" title="Hapus">&#10005;</button>
-    </div>
-  `).join("");
-}
-
-function addNilaiSekolah() {
-  const input = document.getElementById("f-nilaiSekolahInput");
-  const text = input.value.trim();
-  if (!text) return;
-  nilaiSekolah.push({ id: "n" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), text });
-  input.value = "";
-  saveNilaiSekolah();
-  renderNilaiSekolahList();
-  updateVisiPreview();
-}
-
-function removeNilaiSekolah(id) {
-  nilaiSekolah = nilaiSekolah.filter(n => n.id !== id);
-  saveNilaiSekolah();
-  renderNilaiSekolahList();
-  updateVisiPreview();
-}
-
-function nilaiSekolahText() {
-  return nilaiSekolah.map(n => n.text).join(", ");
-}
-
-renderNilaiSekolahList();
-document.getElementById("f-nilaiSekolahInput").addEventListener("keydown", e => {
-  if (e.key === "Enter") { e.preventDefault(); addNilaiSekolah(); }
-});
-
-// ---------- Pratinjau Visi real-time (tersinkron dari indikator inti) ----------
-const NILAI_FRASA = {
-  "Keimanan dan ketakwaan": "beriman dan bertakwa",
-  "Kewargaan": "berjiwa kebangsaan",
-  "Penalaran kritis": "bernalar kritis",
-  "Kreativitas": "kreatif",
-  "Kolaborasi": "kolaboratif",
-  "Kemandirian": "mandiri",
-  "Kesehatan": "sehat jasmani dan rohani",
-  "Komunikasi": "komunikatif",
-};
-const KEBIJAKAN_FRASA = {
-  "Profil Lulusan / Profil Pelajar Pancasila": "penguatan profil lulusan",
-  "Penguatan pendidikan karakter": "penguatan pendidikan karakter",
-  "Penguatan literasi": "penguatan literasi",
-  "Penguatan numerasi": "penguatan numerasi",
-  "Kurikulum Merdeka": "implementasi Kurikulum Merdeka",
-  "Pendidikan inklusif": "pendidikan yang inklusif",
-  "Sekolah ramah lingkungan / Adiwiyata": "pelestarian lingkungan sekolah",
-};
+// ---------- Pratinjau Visi real-time (tersinkron dari isian indikator) ----------
 function toIndonesianList(arr) {
   const a = arr.filter(Boolean);
   if (a.length === 0) return "";
@@ -458,34 +348,20 @@ function toIndonesianList(arr) {
 function lowerFirst(s) {
   return s ? s.charAt(0).toLowerCase() + s.slice(1) : s;
 }
-function firstSentence(text) {
-  if (!text) return "";
-  const s = text.split(/[.!?]/)[0].trim();
-  return s;
-}
 function updateVisiPreview() {
   const box = document.getElementById("visi-preview-text");
   if (!box) return;
   const namaSekolah = val("f-namaSekolah");
   const jenjang = val("f-jenjang") || "sekolah";
-  const nilaiChips = selectedChips("chips-nilai").map(c => NILAI_FRASA[c] || c.toLowerCase());
-  const nilaiKhas = nilaiSekolah.map(n => n.text);
-  const semuaNilai = toIndonesianList(nilaiChips.concat(nilaiKhas));
-  const kebijakanChips = selectedChips("chips-kebijakan").map(c => KEBIJAKAN_FRASA[c] || c.toLowerCase());
-  const identitas = lowerFirst(firstSentence(val("f-identitasKhas")));
+  const subjek = namaSekolah || `peserta didik jenjang ${jenjang}`;
+  const terisi = indikatorList.filter(p => p.tema && p.tema.trim());
 
-  if (!semuaNilai) {
-    box.textContent = "Pilih minimal satu Dimensi Profil Lulusan atau tambahkan nilai khas sekolah untuk melihat pratinjau.";
+  if (!terisi.length) {
+    box.textContent = "Isi minimal satu indikator (tema/fokus, kondisi nyata, tantangan) untuk melihat pratinjau.";
     return;
   }
-  const subjek = namaSekolah || `peserta didik jenjang ${jenjang}`;
-  const parts = [
-    `Mewujudkan ${subjek} yang ${semuaNilai}`,
-    `melalui pembelajaran mendalam yang berkesadaran, bermakna, dan menggembirakan`,
-  ];
-  if (kebijakanChips.length) parts.push(`didukung ${toIndonesianList(kebijakanChips)}`);
-  if (identitas) parts.push(identitas);
-  box.textContent = parts.join(", ") + ".";
+  const fokusList = toIndonesianList(terisi.map(p => lowerFirst(p.tema.trim())));
+  box.textContent = `Mewujudkan ${subjek} melalui pembelajaran mendalam yang berkesadaran, bermakna, dan menggembirakan, dengan penekanan pada ${fokusList}.`;
 }
 
 // ---------- Render (step visibility + nav state) ----------
@@ -528,63 +404,32 @@ function goBack() { if (step > 0) { step--; render(); } }
 
 // ---------- Gather form data ----------
 function val(id) { const el = document.getElementById(id); return el ? el.value.trim() : ""; }
-function selectedChips(containerId) {
-  return Array.from(document.querySelectorAll(`#${containerId} .chip.active`)).map(c => c.dataset.value);
+
+function pilihanPromptBlock() {
+  const terisi = indikatorList.filter(p => (p.tema && p.tema.trim()) || (p.kondisi && p.kondisi.trim()) || (p.tantangan && p.tantangan.trim()));
+  if (!terisi.length) return "(tidak ada indikator yang diisi)";
+  return terisi.map((p, i) =>
+    `${i + 1}. ${p.tema || "(tema tidak diisi)"}\n   Kondisi Nyata: ${p.kondisi || "(tidak diisi)"}\n   Tantangan Pembelajaran Mendalam: ${p.tantangan || "(tidak diisi)"}`
+  ).join("\n\n");
 }
 
 function buildPrompt() {
   const na = v => (v ? v : "(tidak diisi)");
-  const nilai = [...selectedChips("chips-nilai"), nilaiSekolahText()].filter(Boolean).join(", ") || "(tidak diisi)";
-  const kebijakanArr = selectedChips("chips-kebijakan");
-  const kebijakan = kebijakanArr.length ? kebijakanArr.join(", ") : "(tidak diisi)";
 
-  return `Anda adalah konsultan pengembangan kurikulum sekolah di Indonesia. Berdasarkan hasil analisis konteks sekolah berikut, rumuskan draf VISI, MISI, dan TUJUAN SEKOLAH yang selaras, membumi, dan mencerminkan data yang diberikan (bukan template generik).
+  return `Anda adalah konsultan pengembangan kurikulum sekolah di Indonesia yang mengacu pada kerangka Pembelajaran Mendalam (Deep Learning). Berdasarkan identitas sekolah dan indikator konteks sekolah (isian sendiri dari satuan pendidikan) berikut, rumuskan draf VISI, MISI, dan TUJUAN SEKOLAH yang selaras, membumi, dan mencerminkan konteks tersebut (bukan template generik).
 
 IDENTITAS
 Nama sekolah: ${na(val("f-namaSekolah"))}
 Jenjang: ${na(val("f-jenjang"))}
 Kepala sekolah: ${na(val("f-kepsek"))}
 
-PROFIL DAN KONDISI SEKOLAH
-Karakteristik peserta didik: ${na(val("f-karakteristikPD"))}
-Kompetensi dan kondisi guru/tenaga kependidikan: ${na(val("f-kompetensiGuru"))}
-Sarana dan prasarana: ${na(val("f-saranaPrasarana"))}
-Prestasi dan potensi sekolah: ${na(val("f-prestasi"))}
-Keunggulan sekolah: ${na(val("f-keunggulan"))}
-Kelemahan sekolah: ${na(val("f-kelemahan"))}
-
-KEBUTUHAN DAN KARAKTERISTIK PESERTA DIDIK
-Perkembangan akademik: ${na(val("f-perkembanganAkademik"))}
-Perkembangan nonakademik: ${na(val("f-perkembanganNonakademik"))}
-Karakter dan kompetensi yang perlu dikembangkan: ${na(val("f-karakterKompetensi"))}
-Kebutuhan sosial-emosional dan keterampilan abad ke-21: ${na(val("f-kebutuhanAbad21"))}
-
-POTENSI LINGKUNGAN DAN MASYARAKAT
-Kondisi sosial-budaya masyarakat: ${na(val("f-kondisiSosialBudaya"))}
-Potensi daerah: ${na(val("f-potensiDaerah"))}
-Harapan orang tua/masyarakat: ${na(val("f-harapanOrtu"))}
-Kemitraan DU/DI/lembaga lain: ${na(val("f-kemitraan"))}
-
-NILAI DAN BUDAYA SEKOLAH
-Nilai karakter yang ingin ditanamkan: ${nilai}
-Budaya positif sekolah: ${na(val("f-budayaPositif"))}
-Identitas dan keunggulan khas sekolah: ${na(val("f-identitasKhas"))}
-
-KEBIJAKAN DAN ARAH PENDIDIKAN NASIONAL
-Kebijakan yang menjadi acuan: ${kebijakan}
-Catatan tambahan: ${na(val("f-catatanKebijakan"))}
-
-EVALUASI DAN DATA SEKOLAH
-Rapor Pendidikan: ${na(val("f-raporPendidikan"))}
-Hasil asesmen peserta didik: ${na(val("f-hasilAsesmen"))}
-Evaluasi program sekolah: ${na(val("f-evaluasiProgram"))}
-Hasil supervisi: ${na(val("f-hasilSupervisi"))}
-Masukan warga sekolah dan masyarakat: ${na(val("f-masukanWarga"))}
+INDIKATOR KONTEKS SEKOLAH (isian sendiri dari satuan pendidikan: tema/fokus, kondisi nyata & tantangan yang menjadi dasar rumusan)
+${pilihanPromptBlock()}
 
 TUGAS
-1. Visi: buat 3 alternatif kalimat visi yang SEPADAN (setara bobot dan kualitasnya, sama-sama layak dipakai, bukan satu versi "utama" dan sisanya cadangan asal-asalan). Setiap alternatif harus berupa SATU KALIMAT UTUH YANG PANJANG DAN DESKRIPTIF, idealnya 20-35 kata (jangan buat kalimat pendek 5-10 kata), memuat beberapa unsur sekaligus (misalnya karakter/akhlak, kompetensi akademik seperti literasi-numerasi, dan identitas/budaya lokal) yang dirangkai secara mengalir dengan anak kalimat atau klausa tambahan, mencerminkan konteks di atas secara spesifik, bukan kalimat generik yang bisa dipakai sekolah manapun. Ketiga alternatif harus punya sudut penekanan atau gaya bahasa yang sedikit berbeda satu sama lain (misalnya: satu menekankan karakter, satu menekankan literasi/prestasi akademik, satu menekankan budaya/lokalitas), namun tetap konsisten dengan seluruh data yang diberikan dan tetap dalam satu kalimat yang utuh (bukan dipecah jadi beberapa kalimat pendek).
-2. Misi: 5-6 poin berupa kalimat aksi (dimulai kata kerja) yang menjabarkan cara mencapai visi, masing-masing merujuk konteks nyata sekolah ini. Susun agar selaras dengan KETIGA alternatif visi di atas (jangan hanya cocok untuk satu alternatif saja).
-3. Tujuan sekolah: tujuan jangka pendek (1 tahun), jangka menengah (2-4 tahun), dan jangka panjang (5 tahun ke atas), masing-masing 2-3 kalimat, operasional dan terukur.
+1. Visi: buat 3 alternatif kalimat visi yang SEPADAN (setara bobot dan kualitasnya, sama-sama layak dipakai, bukan satu versi "utama" dan sisanya cadangan asal-asalan). Setiap alternatif harus berupa SATU KALIMAT UTUH YANG PANJANG DAN DESKRIPTIF, idealnya 20-35 kata (jangan buat kalimat pendek 5-10 kata), memuat beberapa unsur sekaligus yang menjawab Tantangan Pembelajaran Mendalam pada seluruh indikator di atas secara sinkron, dirangkai secara mengalir dengan anak kalimat atau klausa tambahan, mencerminkan konteks di atas secara spesifik, bukan kalimat generik yang bisa dipakai sekolah manapun. Jika ada lebih dari satu indikator yang diisi, padukan unsur-unsurnya secara seimbang, jangan hanya mengambil salah satu. Ketiga alternatif harus punya sudut penekanan atau gaya bahasa yang sedikit berbeda satu sama lain, namun tetap konsisten dan sinkron dengan seluruh indikator yang diisi, dan tetap dalam satu kalimat yang utuh (bukan dipecah jadi beberapa kalimat pendek).
+2. Misi: 5-6 poin berupa kalimat aksi (dimulai kata kerja) yang menjabarkan cara menjawab Tantangan Pembelajaran Mendalam pada seluruh indikator di atas dan mencapai visi. Susun agar selaras dengan KETIGA alternatif visi di atas (jangan hanya cocok untuk satu alternatif saja).
+3. Tujuan sekolah: tujuan jangka pendek (1 tahun), jangka menengah (2-4 tahun), dan jangka panjang (5 tahun ke atas), masing-masing 2-3 kalimat, operasional dan terukur, dan jelas menjawab Tantangan Pembelajaran Mendalam pada indikator yang diisi.
 
 Jawab HANYA dengan JSON valid tanpa teks lain, tanpa markdown code fence, dengan struktur persis:
 {"visi_pilihan":["...","...","..."],"misi":["...","..."],"tujuan_pendek":"...","tujuan_menengah":"...","tujuan_panjang":"..."}`;
@@ -659,11 +504,8 @@ async function handleGenerate() {
 
 function buildSyncPrompt(visiText) {
   const na = v => (v ? v : "(tidak diisi)");
-  const nilai = [...selectedChips("chips-nilai"), nilaiSekolahText()].filter(Boolean).join(", ") || "(tidak diisi)";
-  const kebijakanArr = selectedChips("chips-kebijakan");
-  const kebijakan = kebijakanArr.length ? kebijakanArr.join(", ") : "(tidak diisi)";
 
-  return `Anda adalah konsultan pengembangan kurikulum sekolah di Indonesia.
+  return `Anda adalah konsultan pengembangan kurikulum sekolah di Indonesia yang mengacu pada kerangka Pembelajaran Mendalam (Deep Learning).
 
 VISI SEKOLAH INI SUDAH DITETAPKAN DAN TIDAK BOLEH DIUBAH:
 "${visiText}"
@@ -675,44 +517,11 @@ Nama sekolah: ${na(val("f-namaSekolah"))}
 Jenjang: ${na(val("f-jenjang"))}
 Kepala sekolah: ${na(val("f-kepsek"))}
 
-PROFIL DAN KONDISI SEKOLAH
-Karakteristik peserta didik: ${na(val("f-karakteristikPD"))}
-Kompetensi dan kondisi guru/tenaga kependidikan: ${na(val("f-kompetensiGuru"))}
-Sarana dan prasarana: ${na(val("f-saranaPrasarana"))}
-Prestasi dan potensi sekolah: ${na(val("f-prestasi"))}
-Keunggulan sekolah: ${na(val("f-keunggulan"))}
-Kelemahan sekolah: ${na(val("f-kelemahan"))}
-
-KEBUTUHAN DAN KARAKTERISTIK PESERTA DIDIK
-Perkembangan akademik: ${na(val("f-perkembanganAkademik"))}
-Perkembangan nonakademik: ${na(val("f-perkembanganNonakademik"))}
-Karakter dan kompetensi yang perlu dikembangkan: ${na(val("f-karakterKompetensi"))}
-Kebutuhan sosial-emosional dan keterampilan abad ke-21: ${na(val("f-kebutuhanAbad21"))}
-
-POTENSI LINGKUNGAN DAN MASYARAKAT
-Kondisi sosial-budaya masyarakat: ${na(val("f-kondisiSosialBudaya"))}
-Potensi daerah: ${na(val("f-potensiDaerah"))}
-Harapan orang tua/masyarakat: ${na(val("f-harapanOrtu"))}
-Kemitraan DU/DI/lembaga lain: ${na(val("f-kemitraan"))}
-
-NILAI DAN BUDAYA SEKOLAH
-Nilai karakter yang ingin ditanamkan: ${nilai}
-Budaya positif sekolah: ${na(val("f-budayaPositif"))}
-Identitas dan keunggulan khas sekolah: ${na(val("f-identitasKhas"))}
-
-KEBIJAKAN DAN ARAH PENDIDIKAN NASIONAL
-Kebijakan yang menjadi acuan: ${kebijakan}
-Catatan tambahan: ${na(val("f-catatanKebijakan"))}
-
-EVALUASI DAN DATA SEKOLAH
-Rapor Pendidikan: ${na(val("f-raporPendidikan"))}
-Hasil asesmen peserta didik: ${na(val("f-hasilAsesmen"))}
-Evaluasi program sekolah: ${na(val("f-evaluasiProgram"))}
-Hasil supervisi: ${na(val("f-hasilSupervisi"))}
-Masukan warga sekolah dan masyarakat: ${na(val("f-masukanWarga"))}
+INDIKATOR KONTEKS SEKOLAH (isian sendiri dari satuan pendidikan: tema/fokus, kondisi nyata & tantangan yang menjadi dasar rumusan)
+${pilihanPromptBlock()}
 
 TUGAS
-1. Misi: 5-6 poin berupa kalimat aksi (dimulai kata kerja) yang menjabarkan cara mencapai VISI DI ATAS PERSIS SEPERTI TERTULIS, masing-masing merujuk konteks nyata sekolah ini.
+1. Misi: 5-6 poin berupa kalimat aksi (dimulai kata kerja) yang menjabarkan cara mencapai VISI DI ATAS PERSIS SEPERTI TERTULIS, masing-masing merujuk Tantangan Pembelajaran Mendalam pada indikator di atas.
 2. Tujuan sekolah: tujuan jangka pendek (1 tahun), jangka menengah (2-4 tahun), dan jangka panjang (5 tahun ke atas), masing-masing 2-3 kalimat, operasional dan terukur, dan jelas mendukung pencapaian visi di atas.
 
 Jawab HANYA dengan JSON valid tanpa teks lain, tanpa markdown code fence, dengan struktur persis:
@@ -907,7 +716,7 @@ window.addEventListener("beforeprint", () => {
   document.querySelectorAll(".doc textarea").forEach(autoGrow);
 });
 
-["f-namaSekolah", "f-identitasKhas"].forEach(id => {
+["f-namaSekolah"].forEach(id => {
   const el = document.getElementById(id);
   if (el) el.addEventListener("input", updateVisiPreview);
 });
